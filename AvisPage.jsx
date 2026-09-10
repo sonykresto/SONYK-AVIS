@@ -9,10 +9,10 @@ export default function AvisPage() {
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [client, setClient] = useState(null) // { nom_restaurant, lien_google_review, actif }
+  const [client, setClient] = useState(null)
 
   const [note, setNote] = useState(0)
-  const [step, setStep] = useState('rating') // 'rating' | 'positive' | 'negative' | 'sent'
+  const [step, setStep] = useState('rating')
   const [commentaire, setCommentaire] = useState('')
   const [contact, setContact] = useState('')
   const [envoi, setEnvoi] = useState(false)
@@ -60,7 +60,6 @@ export default function AvisPage() {
         body: JSON.stringify({ slug, note, commentaire, contact }),
       })
     } catch (e) {
-      // silencieux pour le client, on affiche quand même le merci
     } finally {
       setStep('sent')
     }

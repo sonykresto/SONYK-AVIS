@@ -65,6 +65,10 @@ export default function AvisPage() {
     }
   }
 
+  function goToGoogle() {
+    window.location.href = client.lien_google_review
+  }
+
   if (loading) {
     return <div className="page-center">Chargement...</div>
   }
@@ -88,14 +92,7 @@ export default function AvisPage() {
           <>
             <div className="stars">
               {[1, 2, 3, 4, 5].map((v) => (
-                <button
-                  key={v}
-                  className={`star-btn ${v <= note ? 'lit' : ''}`}
-                  onClick={() => handleStar(v)}
-                  aria-label={`${v} étoiles`}
-                >
-                  ★
-                </button>
+                <button key={v} className={`star-btn ${v <= note ? 'lit' : ''}`} onClick={() => handleStar(v)} aria-label={`${v} étoiles`}>★</button>
               ))}
             </div>
             <div className="star-hint">Touchez une étoile</div>
@@ -115,35 +112,16 @@ export default function AvisPage() {
             <p>On aimerait comprendre ce qui n'a pas été à la hauteur.</p>
 
             <label className="field-label">Qu'est-ce qu'on pourrait améliorer ?</label>
-            <textarea
-              value={commentaire}
-              onChange={(e) => setCommentaire(e.target.value)}
-              placeholder="Votre commentaire..."
-            />
+            <textarea value={commentaire} onChange={(e) => setCommentaire(e.target.value)} placeholder="Votre commentaire..." />
 
-            <label className="field-label">
-              Numéro ou courriel (facultatif, si vous voulez qu'on vous recontacte)
-            </label>
-            <input
-              type="text"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-            />
+            <label className="field-label">Numéro ou courriel (facultatif, si vous voulez qu'on vous recontacte)</label>
+            <input type="text" value={contact} onChange={(e) => setContact(e.target.value)} />
 
-            <button className="btn-primary" onClick={handleSendPrivate} disabled={envoi}>
-              {envoi ? 'Envoi...' : 'Envoyer en privé'}
-            </button>
+            <button className="btn-primary" onClick={handleSendPrivate} disabled={envoi}>{envoi ? 'Envoi...' : 'Envoyer en privé'}</button>
 
             <div className="divider-word">— ou —</div>
 
-            
-              className="btn-google quiet"
-              href={client.lien_google_review}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Partager aussi sur Google
-            </a>
+            <button type="button" className="btn-google quiet" onClick={goToGoogle}>Partager aussi sur Google</button>
           </div>
         )}
 

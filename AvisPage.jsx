@@ -13,6 +13,7 @@ export default function AvisPage() {
 
   const [note, setNote] = useState(0)
   const [step, setStep] = useState('rating')
+  const [nom, setNom] = useState('')
   const [commentaire, setCommentaire] = useState('')
   const [contact, setContact] = useState('')
   const [envoi, setEnvoi] = useState(false)
@@ -41,7 +42,7 @@ export default function AvisPage() {
       fetch(WEBHOOK_ECRITURE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, note: val, commentaire: '', contact: '' }),
+        body: JSON.stringify({ slug, note: val, nom: '', commentaire: '', contact: '' }),
       }).catch(() => {})
       setTimeout(() => {
         window.location.href = client.lien_google_review
@@ -57,7 +58,7 @@ export default function AvisPage() {
       await fetch(WEBHOOK_ECRITURE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, note, commentaire, contact }),
+        body: JSON.stringify({ slug, note, nom, commentaire, contact }),
       })
     } catch (e) {
     } finally {
@@ -86,7 +87,7 @@ export default function AvisPage() {
       <div className="card">
         <div className="mark">{client.nom_restaurant}</div>
         <h1>Comment était votre visite ?</h1>
-        <p className="sub">Votre avis nous aide à faire mieux — ça prend 10 secondes.</p>
+        <p className="sub">Votre avis compte pour nous</p>
 
         {step === 'rating' && (
           <>
@@ -110,6 +111,9 @@ export default function AvisPage() {
           <div className="panel show">
             <h2>Merci de nous le dire</h2>
             <p>On aimerait comprendre ce qui n'a pas été à la hauteur.</p>
+
+            <label className="field-label">Votre nom (facultatif)</label>
+            <input type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
 
             <label className="field-label">Qu'est-ce qu'on pourrait améliorer ?</label>
             <textarea value={commentaire} onChange={(e) => setCommentaire(e.target.value)} placeholder="Votre commentaire..." />

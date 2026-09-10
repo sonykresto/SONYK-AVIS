@@ -36,7 +36,19 @@ export default function AvisPage() {
 
   function handleStar(val) {
     setNote(val)
-    setStep(val >= 4 ? 'positive' : 'negative')
+    if (val >= 4) {
+      setStep('positive')
+      fetch(WEBHOOK_ECRITURE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, note: val, commentaire: '', contact: '' }),
+      }).catch(() => {})
+      setTimeout(() => {
+        window.location.href = client.lien_google_review
+      }, 900)
+    } else {
+      setStep('negative')
+    }
   }
 
   async function handleSendPrivate() {
@@ -51,19 +63,6 @@ export default function AvisPage() {
       // silencieux pour le client, on affiche quand même le merci
     } finally {
       setStep('sent')
-    }
-  }
-
-  async function handleGoogleClick() {
-    // enregistre le scan positif, puis redirige
-    try {
-      fetch(WEBHOOK_ECRITURE, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, note, commentaire: '', contact: '' }),
-      })
-    } catch (e) {
-      // on redirige quand même
     }
   }
 
@@ -107,16 +106,7 @@ export default function AvisPage() {
         {step === 'positive' && (
           <div className="panel show">
             <h2>Merci beaucoup !</h2>
-            <p>Ça nous fait vraiment plaisir. Auriez-vous une minute pour le partager sur Google ?</p>
-            <a
-              className="btn-google"
-              href={client.lien_google_review}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleGoogleClick}
-            >
-              Laisser un avis Google
-            </a>
+            <p>Redirection vers Google...</p>
           </div>
         )}
 
@@ -147,7 +137,7 @@ export default function AvisPage() {
 
             <div className="divider-word">— ou —</div>
 
-            <a
+            
               className="btn-google quiet"
               href={client.lien_google_review}
               target="_blank"
